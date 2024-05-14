@@ -1,6 +1,5 @@
 import React from 'react';
 import { Prisma } from "@prisma/client";
-import Image from "next/image";
 import {Badge} from "lucide-react";
 import {Card, CardContent} from "@/app/_components/ui/card";
 import { format } from 'date-fns';
