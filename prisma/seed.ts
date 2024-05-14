@@ -78,39 +78,22 @@ async function seedDatabase() {
             "Ulisses",
         ]
 
+        const appointments  = [
+            {
+                data: "2021-10-10",
+            },
+            {
+                data : "2021-10-11",
+            },
+            {
+                data : "2021-10-12",
+            }
+        ]
 
-        const services = [
-            {
-                name: "Corte de Cabelo",
-                price: 60.0,
-                imageUrl: "https://utfs.io/f/0ddfbd26-a424-43a0-aaf3-c3f1dc6be6d1-1kgxo7.png",
-            },
-            {
-                name: "Barba",
-                price: 40.0,
-                imageUrl: "https://utfs.io/f/e6bdffb6-24a9-455b-aba3-903c2c2b5bde-1jo6tu.png",
-            },
-            {
-                name: "Pézinho",
-                price: 35.0,
-                imageUrl: "https://utfs.io/f/8a457cda-f768-411d-a737-cdb23ca6b9b5-b3pegf.png",
-            },
-            {
-                name: "Sobrancelha",
-                price: 20.0,
-                imageUrl: "https://utfs.io/f/2118f76e-89e4-43e6-87c9-8f157500c333-b0ps0b.png",
-            },
-            {
-                name: "Massagem",
-                price: 50.0,
-                imageUrl: "https://utfs.io/f/c4919193-a675-4c47-9f21-ebd86d1c8e6a-4oen2a.png",
-            },
-            {
-                name: "Hidratação",
-                price: 25.0,
-                imageUrl: "https://utfs.io/f/8a457cda-f768-411d-a737-cdb23ca6b9b5-b3pegf.png",
-            },
-        ];
+
+
+
+
 
         // Criar 10 barbearias com nomes e endereços fictícios
         const barbershops = [];
@@ -129,6 +112,69 @@ async function seedDatabase() {
 
                 },
             });
+            const services = [
+                {
+                    name: "Corte de Cabelo",
+                    price: 60.0,
+                    imageUrl: "https://utfs.io/f/0ddfbd26-a424-43a0-aaf3-c3f1dc6be6d1-1kgxo7.png",
+                    barberShop: {
+                        connect:{
+                            id: barbershop.id
+                        }
+                    }
+                },
+                {
+                    name: "Barba",
+                    price: 40.0,
+                    imageUrl: "https://utfs.io/f/e6bdffb6-24a9-455b-aba3-903c2c2b5bde-1jo6tu.png",
+                    barberShop: {
+                        connect:{
+                            id: barbershop.id
+                        }
+                    }
+                },
+                {
+                    name: "Pézinho",
+                    price: 35.0,
+                    imageUrl: "https://utfs.io/f/8a457cda-f768-411d-a737-cdb23ca6b9b5-b3pegf.png",
+                    barberShop: {
+                        connect:{
+                            id: barbershop.id
+                        }
+                    }
+                },
+                {
+                    name: "Sobrancelha",
+                    price: 20.0,
+                    imageUrl: "https://utfs.io/f/2118f76e-89e4-43e6-87c9-8f157500c333-b0ps0b.png",
+                    barberShop: {
+                        connect:{
+                            id: barbershop.id
+                        }
+                    }
+                },
+                {
+                    name: "Massagem",
+                    price: 50.0,
+                    imageUrl: "https://utfs.io/f/c4919193-a675-4c47-9f21-ebd86d1c8e6a-4oen2a.png",
+                    barberShop: {
+                        connect:{
+                            id: barbershop.id
+                        }
+                    }
+                },
+                {
+                    name: "Hidratação",
+                    price: 25.0,
+                    imageUrl: "https://utfs.io/f/8a457cda-f768-411d-a737-cdb23ca6b9b5-b3pegf.png",
+                    barberShop: {
+                        connect:{
+                            id: barbershop.id
+                        }
+                    }
+                },
+            ];
+
 
             const barber = await  prisma.barber.create({
                     data:{
@@ -140,22 +186,35 @@ async function seedDatabase() {
                         }
                     }
             })
-
-            for (const service of services) {
-                await prisma.services.create({
-                    data: {
-                        name: service.name,
-                        price: service.price,
-                        barberShop: {
-                            connect: {
-                                id: barbershop.id,
+            for (const item of services) {
+                const service = await prisma.services.create({
+                    data : item
+                })
+                for (const appointment of appointments) {
+                    await prisma.appointments.create({
+                        data :{
+                            date: new Date(appointment.data),
+                            barberShop: {
+                                connect: {
+                                    id: barbershop.id,
+                                },
                             },
+                            service:{
+                                connect:{
+                                    id:service.id
+                                }
+                            }
 
-                        },
-                        imageUrl: service.imageUrl,
-                    },
-                });
+                        }
+                    })
+                }
             }
+
+
+
+
+
+
 
             barbershops.push(barbershop);
         }
