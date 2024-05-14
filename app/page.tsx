@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Header from "@/app/_components/header";
 import InputSearch from "@/app/_components/inputSearch";
 import Scheduling from "@/app/_components/scheduling";
