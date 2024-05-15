@@ -6,7 +6,6 @@ import ServiceDetails from "@/app/barbershop/[id]/_components/serviceDetails";
 import {Barber, BarberShop, Services} from '@prisma/client';
 import Details from "@/app/barbershop/[id]/_components/details";
 import Barbers from "@/app/barbershop/[id]/_components/Barbers";
-import barbers from "@/app/barbershop/[id]/_components/Barbers";
 interface barberShopDetailsProps {
     barberShop : BarberShop
     services : Services[]
