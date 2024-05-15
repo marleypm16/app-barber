@@ -1,8 +1,7 @@
 import React from 'react';
-import {Prisma, Services} from "@prisma/client";
+import { Services} from "@prisma/client";
 import Image from "next/image";
 import {Button} from "@/app/_components/ui/button";
-import {format} from "date-fns";
 interface ServiceDetailsProps {
     services : Services[]
 }
