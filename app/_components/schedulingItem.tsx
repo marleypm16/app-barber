@@ -5,6 +5,7 @@ import {Card, CardContent} from "@/app/_components/ui/card";
 import { format } from 'date-fns';
 import {ptBR} from "date-fns/locale";
 import {Avatar, AvatarFallback, AvatarImage} from "@/app/_components/ui/avatar";
+import Link from "next/link";
 interface schedulingItemProps {
     scheduling : Prisma.AppointmentsGetPayload<{
         include:{
@@ -24,6 +25,7 @@ interface schedulingItemProps {
 }
 const SchedulingItem = ({scheduling} : schedulingItemProps) => {
     return (
+        <Link className='min-w-full'  href={`/schedule/${scheduling.id}`}>
         <Card className="min-w-full">
             <CardContent className="py-0 flex px-0">
                 <div className="flex flex-col gap-2 py-5 flex-[3] pl-5">
@@ -50,10 +52,13 @@ const SchedulingItem = ({scheduling} : schedulingItemProps) => {
                         })}
                     </p>
                     <p className="text-2xl">{format(scheduling.date, "dd")}</p>
-                    <p className="text-sm">{format(scheduling.date, "hh:mm")}</p>
+                    <p className="text-sm">{format(scheduling.date, "HH:mm",{
+                        locale: ptBR
+                    })}</p>
                 </div>
             </CardContent>
         </Card>
+        </Link>
     );
 };
 
