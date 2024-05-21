@@ -6,6 +6,9 @@ import ServiceDetails from "@/app/barbershop/[id]/_components/serviceDetails";
 import {Barber, BarberShop, Services} from '@prisma/client';
 import Details from "@/app/barbershop/[id]/_components/details";
 import Barbers from "@/app/barbershop/[id]/_components/Barbers";
+import {ChevronLeftIcon} from "lucide-react";
+import {useRouter} from "next/navigation";
+
 interface barberShopDetailsProps {
     barberShop : BarberShop
     services : Services[]
@@ -14,9 +17,10 @@ interface barberShopDetailsProps {
 
 const BarberShopDetails = ({barberShop,services,barbers} : barberShopDetailsProps) => {
     const [activeComponent, setActiveComponent] = React.useState('services');
+    const router = useRouter();
     const renderComponent = () => {
         if (activeComponent === 'services') {
-            return <ServiceDetails services={services}/>
+            return <ServiceDetails barberShop={barberShop} services={services}/>
         }
         else if (activeComponent === 'details') {
             return <Details barberShop={barberShop}/>
@@ -25,15 +29,21 @@ const BarberShopDetails = ({barberShop,services,barbers} : barberShopDetailsProp
             return <Barbers barbers={barbers}/>
         }
     }
+
+    const handleBack = () => {
+        router.back();
+    }
     return (
         <div>
             <div className=''>
-                <Image src={barberShop.imageUrl} alt={barberShop.name} width={500} height={500}/>
-                <div className='p-5'>
-                    <h1>{barberShop.name}</h1>
-                    <p>{barberShop.address}</p>
+                <div className='relative'>
+                    <Image src={barberShop.imageUrl} alt={barberShop.name} width={500} height={500}/>
+                    <div className='p-5'>
+                        <h1>{barberShop.name}</h1>
+                        <p>{barberShop.address}</p>
+                    </div>
+                    <ChevronLeftIcon onClick={handleBack} className='absolute top-5 left-5 cursor-pointer' />
                 </div>
-
                 <div className='p-5'>
                     <Navigation setActiveComponent={setActiveComponent}/>
                 </div>
