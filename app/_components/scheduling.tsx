@@ -1,5 +1,4 @@
 import React from 'react';
-
 import SchedulingItem from "@/app/_components/schedulingItem";
 import {db} from "@/app/_lib/prisma";
 const Scheduling = async () => {
@@ -22,16 +21,20 @@ const Scheduling = async () => {
     });
     return (
         <div className="mt-6">
-            {schedule.length > 0 && (
-                <>
-                    <h2 className="pl-5 text-xs mb-3 uppercase text-gray-400 font-bold">Agendamentos</h2>
-                    <div className="px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                        {schedule.map((booking) => (
-                            <SchedulingItem key={booking.id} scheduling={booking}/>
-                        ))}
-                    </div>
-                </>
-            )}
+            <h2 className="pl-5 text-xs mb-3 uppercase text-gray-400 font-bold">Agendamentos</h2>
+            {
+                schedule.length > 0 ? (
+                    <>
+                        <div className="px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                            {schedule.map((booking) => (
+                              <SchedulingItem key={booking.id} scheduling={booking}/>
+                            ))}
+                        </div>
+                    </>
+                ) : (
+                    <p className='px-5 '>Nenhum agendamento encontrado</p>
+                )
+            }
         </div>
     );
 };
