@@ -24,7 +24,10 @@ const BarberShopsPage = () => {
     }
     return (
         <>
-            <Header />
+            <div className='p-5'>
+                <Header />
+
+            </div>
             <div className="px-5 py-6">
                 <h2 className="mb-6 text-lg font-semibold">Barbearias Encontradas</h2>
                 <div className="flex w-full flex-col gap-6">
