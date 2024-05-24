@@ -35,7 +35,7 @@ const SchedulePage = async ({params} : SchedulePageProps) => {
         return notFound()
     }
     return (
-        <div className='p-5'>
+        <div className='p-5 mb-3'>
             <Header/>
             <div className='mb-3'>
                 <h1>Informações da reserva</h1>
