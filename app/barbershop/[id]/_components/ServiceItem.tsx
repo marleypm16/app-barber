@@ -84,7 +84,7 @@ const ServiceItem = ({service,barbershop} : ServiceItemProps) => {
                     </div>
                 </div>
                 <Sheet>
-                    <SheetTrigger><Button>Reservar</Button></SheetTrigger>
+                    <SheetTrigger><Button variant='secondary'>Reservar</Button></SheetTrigger>
                     <SheetContent>
                         <SheetHeader>
                             <SheetTitle>Agendamento</SheetTitle>
@@ -135,15 +135,20 @@ const ServiceItem = ({service,barbershop} : ServiceItemProps) => {
                                         </Button>
                                     ))}
                                 </div>
-                                <p>{barbershop.name}</p>
-                                <p> {format(date, "dd 'de' MMMM 'de' yyyy", {
-                                    locale: ptBR,
-                                })} ás {hour}</p>
-                                <p>{service.name} - {Number(service.price).toLocaleString('pt-br', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                })}</p>
-                               <Link href={'/schedule'}> <Button onClick={handleConfirm}>Confirmar</Button></Link>
+                                {hour && (
+                                    <>
+                                        <p>{barbershop.name}</p>
+                                        <p> {format(date, "dd 'de' MMMM 'de' yyyy", {
+                                            locale: ptBR,
+                                        })} ás {hour}</p>
+                                        <p>{service.name} - {Number(service.price).toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        })}</p>
+                                        <Link href={`/schedule`}> <Button
+                                            onClick={handleConfirm}>Confirmar</Button></Link>
+                                    </>
+                                )}
 
                             </SheetDescription>
                         )}
