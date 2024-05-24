@@ -4,7 +4,7 @@ import BarberShopItem from "@/app/_components/barberShopItem";
 
 const BarberShopList = async () => {
     const barbersShop = await db.barberShop.findMany({
-        take:5
+        take:10
     });
     return (
         <div className="mt-6">
