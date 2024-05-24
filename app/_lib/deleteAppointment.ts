@@ -7,5 +7,4 @@ export const handleDeleteSchedule = async (appointmentId:string) => {
             id: appointmentId
         }
     })
-    console.log(appointment)
 }
