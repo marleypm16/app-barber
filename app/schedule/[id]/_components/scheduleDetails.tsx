@@ -1,13 +1,15 @@
 "use client";
 import React from 'react';
 import {Prisma} from "@prisma/client";
+import {Toaster,toast} from "sonner";
 import {format} from "date-fns";
 import {ptBR} from "date-fns/locale";
 import {Button} from "@/app/_components/ui/button";
 import {handleDeleteSchedule} from "@/app/_lib/deleteAppointment";
-import Link from 'next/link';
 import {Card, CardContent} from "@/app/_components/ui/card";
 import Image from "next/image";
+import {Avatar, AvatarImage} from "@/app/_components/ui/avatar";
+import Link from "next/link";
 interface ScheduleDetailsProps {
     schedule : Prisma.AppointmentsGetPayload<{
         include:{
@@ -29,6 +31,18 @@ interface ScheduleDetailsProps {
 
 }
 const ScheduleDetails = ({schedule} : ScheduleDetailsProps) => {
+
+    const handleDelete = async () => {
+        try {
+            await handleDeleteSchedule(schedule.id);
+            toast.success("Agendamento cancelado com sucesso");
+        }
+        catch (error) {
+            console.error(error);
+            toast.error("Erro ao cancelar agendamento");
+
+        }
+    }
     return (
         <>
             <div className="relative h-[200px] mb-3 w-full">
@@ -38,40 +52,57 @@ const ScheduleDetails = ({schedule} : ScheduleDetailsProps) => {
                     fill
                     className=" object-cover "
                 />
-                <div className="absolute flex p-4  items-center bottom-3 left-5 bg-[#191B1F] rounded-lg px-2 py-1">
-                    <Image src={schedule.barberShop.imageUrl} alt={schedule.barberShop.name} className='rounded-full' height={80} width={80}/>
-                    <div>
-                        <h1 className='text-white'>{schedule.barberShop.name}</h1>
-                        <p className='text-white'>{schedule.barberShop.address}</p>
+                <Toaster/>
+                <div className="px-5">
+                    <div className="relative h-[200px] w-full mt-6">
+                        <Image src="/barbershop-map.svg" fill alt={schedule.barberShop.name} />
+
+                        <div className="w-full absolute bottom-4 left-0 px-5">
+                            <Card>
+                                <CardContent className="p-3 flex gap-2">
+                                    <Avatar>
+                                        <AvatarImage src={schedule.barberShop.imageUrl} />
+                                    </Avatar>
+
+                                    <div>
+                                        <h2 className="font-bold">{schedule.barberShop.name}</h2>
+                                        <h3 className="text-xs overflow-hidden text-nowrap text-ellipsis">{schedule.barberShop.address}</h3>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
-                </div>
+            </div>
             </div>
             <Card>
                 <CardContent className='p-3'>
                     <div className='flex justify-between items-center mb-3'>
-                        <h1>{schedule.service.name}</h1>
-                        <span>{Intl.NumberFormat("pt-BR", {
+                        <span className='text-gray-400 text-sm'>{schedule.service.name}</span>
+                        <span className='text-sm'>{Intl.NumberFormat("pt-BR", {
                                 style: "currency",
                                 currency: "BRL",
                             }).format(Number(schedule.service.price))}</span>
                     </div>
                     <div className='flex justify-between items-center mb-3'>
-                        <span>Data</span>
-                      <span>{format(schedule.date, "dd 'de' MMMM")}</span>
+                        <span className='text-gray-400 text-sm'>Data</span>
+                      <span className='text-sm'>{format(schedule.date, "dd 'de' MMMM")}</span>
                   </div>
 
                   <div className='flex justify-between items-center mb-3'>
-                      <span>Horário</span>
-                      <span>{format(schedule.date, "HH:mm", {
+                      <span className='text-gray-400 text-sm'>Horário</span>
+                      <span className='text-sm'>{format(schedule.date, "HH:mm", {
                           locale: ptBR
                       })}</span>
                   </div>
-                  <div className='flex justify-between items-center'>
-                      <span>Barbearia</span>
-                      <span>{schedule.barberShop.name}</span>
+                  <div className='flex justify-between items-center mb-5'>
+                      <span className='text-gray-400 text-sm'>Barbearia</span>
+                      <span className='text-sm'>{schedule.barberShop.name}</span>
                   </div>
-
-                  <Button onClick={() => handleDeleteSchedule(schedule.id)}>Cancelar</Button>
+                    <div className='flex justify-center'>
+                        <Link href='/'>
+                            <Button variant='destructive' onClick={handleDelete}>Cancelar Agendamento</Button>
+                        </Link>
+                    </div>
               </CardContent>
           </Card>
         </>
